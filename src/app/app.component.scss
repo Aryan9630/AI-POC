@@ -1,0 +1,106 @@
+
+table {
+    width: 100%;
+  }
+.container {
+    border: 1px solid black;
+    max-width: 900px;
+    margin: 0 auto;
+    .clearfix {
+        clear: both;
+    }
+    .left-section {
+        width: 220px;
+        height: 840px;
+        background-color: blue;
+        display: inline-block;
+        .box {
+            text-align: center;
+        }
+    }
+    .right-section {
+        width: calc(100% - 240px);
+        float: right;
+        padding: 10px;
+        background-color: lightgray;
+        .filter {
+            margin-bottom: 10px;
+            display: inline-flex;
+            .searching {
+                display: inline-block;
+                background-color: white;
+                border: 1px solid white;
+                padding-right: 210px;
+                margin-left: 10px;
+                .textDesc {
+                    margin: 15px 0px 0px 10px;
+                    font-size: 40px;
+                }
+                .textFrame {
+                    font-size: 16px;
+                    padding: 5px;
+                    padding-left: 10px;
+                }
+            }
+            .searching1 {
+                display: inline-flex;
+                background-color: white;
+                border: 1px solid white;
+                margin-left: 10px;
+                .textDesc {
+                    margin: 15px 0px 0px 10px;
+                    font-size: 40px;
+                }
+                .textFrame {
+                    font-size: 16px;
+                    padding: 5px;
+                    padding-left: 10px;
+                }
+            }
+        }
+        .graphFrame {
+            background: white;
+            margin: 10px;
+            padding: 10px;
+            .inlineFlex {
+                display: inline-flex;
+            }
+            .overviewDesc {
+                font-size: 16px;
+            }
+            .headerDesc {
+                font-size: 24px;
+            }
+            .sorting {
+                float: right;
+                position: relative;
+            }
+        }
+        .gridSection {
+            display: inline-flex;
+        .gridFrame {
+            height: 235px;
+            width: 290px;
+            overflow: auto;
+            background: white;
+            margin: 10px;
+            padding: 10px;
+        }
+    }
+    }
+}
+
+@media only screen and (max-width: 620px) {
+    .container {
+        border: none;
+        .left-section {
+            min-width: 290px;
+            .box {
+                display: block;
+            }
+        }
+        .right-section {
+            width: 100%;
+        }
+    }
+}
