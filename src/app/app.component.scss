@@ -9,10 +9,13 @@ table {
     .clearfix {
         clear: both;
     }
+    .dropdowncolor {
+        background-color: lightgray;
+    }
     .left-section {
         width: 220px;
-        height: 840px;
-        background-color: blue;
+        height: 905px;
+        background-color: purple;
         display: inline-block;
         .box {
             text-align: center;
@@ -62,8 +65,21 @@ table {
             background: white;
             margin: 10px;
             padding: 10px;
+            .rightArrow {
+                float: right;
+                position: relative;
+                top: 23px;
+            }
+            .leftArrow {
+                cursor: pointer;
+                padding: 0 5px;
+                border: 1px solid gray;
+                display: inline-block;
+                background-color: lightgray;
+            }
             .inlineFlex {
                 display: inline-flex;
+                margin-bottom: 15px;
             }
             .overviewDesc {
                 font-size: 16px;
@@ -72,7 +88,6 @@ table {
                 font-size: 24px;
             }
             .sorting {
-                float: right;
                 position: relative;
             }
         }
@@ -85,6 +100,12 @@ table {
             background: white;
             margin: 10px;
             padding: 10px;
+        }
+        .totalGrid {
+            border-top: 2px solid blue;
+        }
+        .fraudGrid {
+            border-top: 2px solid red;
         }
     }
     }

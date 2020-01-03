@@ -1,6 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CreditcardService } from './services/creditcard.service';
 import { CreditCardFraudReponse, CreditCardFraud } from './model/common.model';
+import {FormControl} from '@angular/forms';
+import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {MatDatepicker} from '@angular/material/datepicker';
+
+// Depending on whether rollup is used, moment needs to be imported differently.
+// Since Moment.js doesn't have a default export, we normally need to import using the `* as`
+// syntax. However, rollup creates a synthetic default module and we thus need to import it using
+// the `default as` syntax.
+import * as _moment from 'moment';
+// tslint:disable-next-line:no-duplicate-imports
+import {Moment} from 'moment';
+
+const moment =  _moment;
+
+
+// See the Moment.js docs for the meaning of these formats:
+// https://momentjs.com/docs/#/displaying/format/
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'MM/YYYY',
+  },
+  display: {
+    dateInput: 'MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
+
 
 export interface PeriodicElement {
   name: string;
@@ -24,19 +54,38 @@ const ELEMENT_DATA: PeriodicElement[] = [
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
-})
-export class AppComponent {
+  styleUrls: ['./app.component.scss'],
+  providers: [
+    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
+    // application's root module. We provide it at the component level here, due to limitations of
+    // our example generation script.
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
 
-  months = [];
-  years = [];
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+  ],
+})
+export class AppComponent implements OnInit {
+
   constructor(private commonService: CreditcardService) {
     this.getCharacters();
   }
 
+  date = new FormControl(moment());
+
+  months;
+  years = [];
+
+  // tslint:disable-next-line:member-ordering
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  // tslint:disable-next-line:member-ordering
   dataSource = ELEMENT_DATA;
+  // tslint:disable-next-line:member-ordering
   category = '';
+  // tslint:disable-next-line:member-ordering
   public chartType = 'line';
 
   // tslint:disable-next-line:member-ordering
@@ -56,6 +105,7 @@ export class AppComponent {
     }
   ];
 
+  // tslint:disable-next-line:member-ordering
   public chartOptions: any = {
     responsive: true
   };
@@ -80,8 +130,24 @@ export class AppComponent {
   public doughnutchartOptions: any = {
     responsive: true,
     tooltips: {enabled: false},
-    // hover: {mode: null},
   };
+
+  chosenYearHandler(normalizedYear: Moment) {
+    const ctrlValue = this.date.value;
+    ctrlValue.year(normalizedYear.year());
+    this.date.setValue(ctrlValue);
+  }
+
+  chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
+    const ctrlValue = this.date.value;
+    ctrlValue.month(normalizedMonth.month());
+    this.date.setValue(ctrlValue);
+    datepicker.close();
+  }
+
+  ngOnInit() {
+    this.getDates();
+  }
 
   getCharacters() {
     this.commonService.getCharacters().subscribe((data: CreditCardFraudReponse) => {
@@ -94,7 +160,7 @@ export class AppComponent {
 
   getDates() {
     const date = new Date();
-    const currentYear = date.getFullYear();
+    const currentYear = date.getFullYear() - 30;
 
     // set values for year dropdown
     for (let i = 0; i <= 100; i++) {
@@ -102,6 +168,7 @@ export class AppComponent {
     }
 
     // set values for month dropdown
-    this.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    this.months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
+     'September', 'October', 'November', 'December'];
   }
 }

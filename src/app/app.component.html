@@ -10,15 +10,16 @@
       </div>
       <div class="searching1">
         <div>
-        <div class="textDesc"><b>296</b></div>
-        <div class="textFrame">Defaulters</div>
-       </div>
+          <div class="textDesc"><b>296</b></div>
+          <div class="textFrame">Defaulters</div>
+        </div>
         <div style="display: block; margin-left: 35px;">
-            <canvas style="display: block; height: 100px; width: 200px;" baseChart [datasets]="doughnutchartDatasets" [labels]="doughnutchartLabels" [options]="doughnutchartOptions" [legend]="true"
-              [chartType]="doughnutchartType" [colors]="doughnutchartColors">
-            </canvas>
-    
-          </div>
+          <canvas style="display: block; height: 100px; width: 200px;" baseChart [datasets]="doughnutchartDatasets"
+            [labels]="doughnutchartLabels" [options]="doughnutchartOptions" [legend]="true"
+            [chartType]="doughnutchartType" [colors]="doughnutchartColors">
+          </canvas>
+
+        </div>
       </div>
     </div>
     <div class="graphFrame">
@@ -29,7 +30,7 @@
           deals related to that day.
         </div>
         <div class="sorting">
-          <select [(ngModel)]="category">
+          <select [(ngModel)]="category" class="dropdowncolor">
             <option value="" selected>Category A</option>
             <option value="categoryB">Category B</option>
             <option value="categoryC">Category C</option>
@@ -38,24 +39,30 @@
       </div>
       <div style="display: block">
         <canvas baseChart [datasets]="chartDatasets" [labels]="chartLabels" [options]="chartOptions" [legend]="false"
-          [chartType]="chartType"  [colors]="chartColors">
+          [chartType]="chartType" [colors]="chartColors">
         </canvas>
 
       </div>
-      <div style="display: inline-flex;">
-        <div style="float: left;width: 250px;">hello</div>
-        <div class="sorting" style="padding-right: 220px;">
-          <select [(ngModel)]="category">
-            <option value="categoryC">October, 2019</option>
-            <option value="" selected>November, 2019</option>
-            <option value="categoryB">December, 2019</option>
-          </select>
+      <div>
+        <div class="leftArrow">&lt;</div>
+        <div class="sorting" style="margin-left: 35%; display: inline-block;">
+          <mat-form-field>
+            <input matInput [matDatepicker]="dp" placeholder="Month and Year" [formControl]="date">
+            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+            <mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)"
+              (monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
+            </mat-datepicker>
+          </mat-form-field>
         </div>
-        <div style="float: right;">hello</div>
+        <div class="rightArrow leftArrow">&gt;</div>
       </div>
     </div>
     <div class="gridSection">
-      <div class="gridFrame">
+      <div class="gridFrame totalGrid">
+        <div style="margin-bottom: 10px;">
+          <span style="font-weight: bold;">All Transactions </span>
+          <span style="color:blue;">(983)</span>
+        </div>
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
           <ng-container matColumnDef="position">
@@ -82,7 +89,11 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
       </div>
-      <div class="gridFrame">
+      <div class="gridFrame fraudGrid">
+        <div style="margin-bottom: 10px;">
+          <span style="font-weight: bold ;">Fraud Transactions </span>
+          <span style="color:red;">(129)</span>
+        </div>
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
           <ng-container matColumnDef="position">
